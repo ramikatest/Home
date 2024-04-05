@@ -6,7 +6,7 @@
   <title>Booking Form</title>
    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-    import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
@@ -20,26 +20,7 @@
     // Initialize Firebase
     const firebaseApp = initializeApp(firebaseConfig);
     const db = getDatabase(firebaseApp);
-
-    // Reference to the bookings node in the database
-    const bookingsRef = ref(db, 'bookings');
-
-    // Function to create a new booking
-    function createBooking(name, email, whatsappNumber, numberOfPeople, tourType, startTime, endTime) {
-      const newBookingRef = push(bookingsRef); // Push a new entry to the bookings node
-      return set(newBookingRef, {
-        name: name,
-        email: email,
-        whatsappNumber: whatsappNumber,
-        numberOfPeople: numberOfPeople,
-        tourType: tourType,
-        startTime: startTime,
-        endTime: endTime,
-        timestamp: Date.now() // Add timestamp for reference
-        // Add other booking details as needed
-      });
-    }
-
+    
     // Handle form submission
     const bookingForm = document.getElementById('bookingForm');
     const messageDiv = document.getElementById('message');
@@ -67,16 +48,20 @@
         });
     });
 
-    // Function to close the message popup
-    function closeMessage() {
-      messageDiv.style.display = 'none';
+    // Function to create a new booking
+    function createBooking(name, email, whatsappNumber, numberOfPeople, tourType, startTime, endTime) {
+      const newBookingRef = push(ref(db, 'bookings'));
+      return set(newBookingRef, {
+        name: name,
+        email: email,
+        whatsappNumber: whatsappNumber,
+        numberOfPeople: numberOfPeople,
+        tourType: tourType,
+        startTime: startTime,
+        endTime: endTime
+        // Add other booking details as needed
+      });
     }
-
-    // Listen for changes in the bookings node to get the number of bookings
-    onValue(bookingsRef, (snapshot) => {
-      const numBookings = snapshot.numChildren(); // Get the number of children under bookings node
-      document.getElementById('numBookings').textContent = `Number of bookings: ${numBookings}`;
-    });
   </script>
   <style>
     body {
@@ -133,18 +118,19 @@
       background-color: #0056b3;
     }
 
-    #message {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.5); /* Background color with transparency */
-      color: white;
-      padding: 20px;
-      border-radius: 5px;
-      z-index: 1;
-      display: none;
-    }
+   #message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Background color with transparency */
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1;
+  display: none;
+}
+
 
     /* Style the close button */
     .close {
@@ -201,7 +187,10 @@
     <button class="close" onclick="closeMessage()">Close</button>
   </div>
 
-  <div id="numBookings">Number of bookings: 0</div>
-
+  <script>
+    function closeMessage() {
+      document.getElementById('message').style.display = 'none';
+    }
+  </script>
 </body>
-</html>
+</html>  

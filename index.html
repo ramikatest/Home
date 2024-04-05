@@ -10,11 +10,11 @@
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
-    authDomain: "ramikatest-ff97c.firebaseapp.com",
-    projectId: "ramikatest-ff97c",
-     storageBucket: "ramikatest-ff97c.appspot.com",
-    messagingSenderId: "619432243067",
-    appId: "1:619432243067:web:3241b65faa996b731cd7de"
+      authDomain: "ramikatest-ff97c.firebaseapp.com",
+      projectId: "ramikatest-ff97c",
+      storageBucket: "ramikatest-ff97c.appspot.com",
+      messagingSenderId: "619432243067",
+      appId: "1:619432243067:web:3241b65faa996b731cd7de"
     };
 
     // Initialize Firebase
@@ -40,6 +40,7 @@
       createBooking(name, email, whatsappNumber, numberOfPeople, tourType, startTime, endTime)
         .then(() => {
           messageDiv.textContent = 'Booking created successfully!';
+          messageDiv.style.display = 'block'; // Show the message
           bookingForm.reset();
         })
         .catch((error) => {

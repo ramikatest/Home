@@ -4,32 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Form</title>
-</head>
-<body>
-  <h1>Booking Form</h1>
-  
-  <form id="bookingForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br><br>
-    
-    <label for="startTime">Start Time:</label>
-    <input type="datetime-local" id="startTime" name="startTime" required><br><br>
-    
-    <label for="endTime">End Time:</label>
-    <input type="datetime-local" id="endTime" name="endTime" required><br><br>
-    
-    <button type="submit">Submit Booking</button>
-  </form>
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
 
-  <div id="message"></div>
-
-  <!-- Firebase scripts -->
-  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
-
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
+    // Firebase configuration
+ const firebaseConfig = {
               apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
     authDomain: "ramikatest-ff97c.firebaseapp.com",
     projectId: "ramikatest-ff97c",
@@ -37,9 +17,10 @@
     messagingSenderId: "619432243067",
     appId: "1:619432243067:web:3241b65faa996b731cd7de"
         };
-    firebase.initializeApp(firebaseConfig);
 
-    const db = firebase.database();
+    // Initialize Firebase
+    const firebaseApp = initializeApp(firebaseConfig);
+    const db = getDatabase(firebaseApp);
     
     // Handle form submission
     const bookingForm = document.getElementById('bookingForm');
@@ -65,8 +46,8 @@
 
     // Function to create a new booking
     function createBooking(name, startTime, endTime) {
-      const newBookingRef = db.ref('bookings').push();
-      return newBookingRef.set({
+      const newBookingRef = push(ref(db, 'bookings'));
+      return set(newBookingRef, {
         name: name,
         startTime: startTime,
         endTime: endTime
@@ -74,5 +55,26 @@
       });
     }
   </script>
+</head>
+<body>
+  <h1>Booking Form</h1>
+  
+  <form id="bookingForm">
+    <label for="name">your Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" name="startTime" required><br><br>
+    
+    <label for="endTime">End Time:</label>
+    <input type="datetime-local" id="endTime" name="endTime" required><br><br>
+    
+    <button type="submit">Submit Booking</button>
+  </form>
+
+  <div id="message"></div>
+
+  <!-- Firebase scripts -->
+ 
 </body>
 </html>

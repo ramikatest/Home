@@ -10,13 +10,13 @@
 
     // Firebase configuration
     const firebaseConfig = {
-              apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
+      apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
     authDomain: "ramikatest-ff97c.firebaseapp.com",
     projectId: "ramikatest-ff97c",
      storageBucket: "ramikatest-ff97c.appspot.com",
     messagingSenderId: "619432243067",
     appId: "1:619432243067:web:3241b65faa996b731cd7de"
-        };
+    };
 
     // Initialize Firebase
     const firebaseApp = initializeApp(firebaseConfig);
@@ -34,10 +34,11 @@
       const email = formData.get('email');
       const whatsappNumber = formData.get('whatsappNumber');
       const numberOfPeople = formData.get('numberOfPeople');
+      const tourType = formData.get('tourType');
       const startTime = formData.get('startTime');
       const endTime = formData.get('endTime');
 
-      createBooking(name, email, whatsappNumber, numberOfPeople, startTime, endTime)
+      createBooking(name, email, whatsappNumber, numberOfPeople, tourType, startTime, endTime)
         .then(() => {
           messageDiv.textContent = 'Booking created successfully!';
           bookingForm.reset();
@@ -48,13 +49,14 @@
     });
 
     // Function to create a new booking
-    function createBooking(name, email, whatsappNumber, numberOfPeople, startTime, endTime) {
+    function createBooking(name, email, whatsappNumber, numberOfPeople, tourType, startTime, endTime) {
       const newBookingRef = push(ref(db, 'bookings'));
       return set(newBookingRef, {
         name: name,
         email: email,
         whatsappNumber: whatsappNumber,
         numberOfPeople: numberOfPeople,
+        tourType: tourType,
         startTime: startTime,
         endTime: endTime
         // Add other booking details as needed
@@ -77,6 +79,12 @@
 
     <label for="numberOfPeople">Number of People:</label>
     <input type="number" id="numberOfPeople" name="numberOfPeople" required><br><br>
+    
+    <label for="tourType">Tour Type:</label>
+    <select id="tourType" name="tourType">
+      <option value="family">Family Tour</option>
+      <option value="company">Company Tour</option>
+    </select><br><br>
     
     <label for="startTime">Start Time:</label>
     <input type="datetime-local" id="startTime" name="startTime" required><br><br>

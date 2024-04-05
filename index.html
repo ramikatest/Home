@@ -17,13 +17,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
-    <!-- Firebase Realtime Database configuration -->
+    <!-- Firebase Firestore configuration -->
     <!-- Make sure to update the Firebase config -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
                 
-        const firebaseConfig =
+              const firebaseConfig =
    {
     apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
     authDomain: "ramikatest-ff97c.firebaseapp.com",
@@ -35,10 +35,10 @@
                 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const db = getFirestore(app);
 
         // Function to handle form submission
-        function submitForm(event) {
+        async function submitForm(event) {
             event.preventDefault(); // Prevent default form submission
             // Get form values
             const username = document.getElementById('username').value;
@@ -46,20 +46,21 @@
             const userWhatsappNumber = document.getElementById('userWhatsappNumber').value;
             const userPeopleCount = document.getElementById('userPeopleCount').value;
 
-            // Push data to Firebase Realtime Database
-            set(ref(db, 'userInformation/' + username), {
-                username: username,
-                userEmail: userEmail,
-                userWhatsappNumber: userWhatsappNumber,
-                userPeopleCount: userPeopleCount
-            }).then(() => {
+            try {
+                // Add data to Firestore
+                await addDoc(collection(db, 'userInformation'), {
+                    username: username,
+                    userEmail: userEmail,
+                    userWhatsappNumber: userWhatsappNumber,
+                    userPeopleCount: userPeopleCount
+                });
                 alert('Data stored successfully!');
                 // Clear form fields after submission
                 document.getElementById('userForm').reset();
-            }).catch((error) => {
+            } catch (error) {
                 console.error('Error storing data: ', error);
                 alert('An error occurred while storing data. Please try again.');
-            });
+            }
         }
     </script>   
 
@@ -68,7 +69,7 @@
 <body class="theme-dark">
     <!-- Your HTML content goes here -->
     <div class="page-content header-clear-medium">
-    <h1>User Information Form</h1>
+        <h1>User Information Form</h1>
         <form id="userForm" onsubmit="submitForm(event)">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
@@ -84,7 +85,6 @@
             
             <button type="submit">Submit</button>
         </form>
-</div>
-
+    </div>
 </body>
 </html>

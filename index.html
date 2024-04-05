@@ -20,12 +20,9 @@
     <!-- Firebase Realtime Database configuration -->
     <script defer src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
-    <script defer type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
-
+    <script defer>
         const firebaseConfig = {
-            apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
+              apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
     authDomain: "ramikatest-ff97c.firebaseapp.com",
     projectId: "ramikatest-ff97c",
      storageBucket: "ramikatest-ff97c.appspot.com",
@@ -35,7 +32,7 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const db = getDatabase(); // Access the Firebase Realtime Database
+        const db = firebase.database(); // Access the Firebase Realtime Database
 
         function submitForm(event) {
             event.preventDefault(); // Prevent default form submission
@@ -46,7 +43,7 @@
             const userPeopleCount = document.getElementById('userPeopleCount').value;
 
             // Get a reference to the 'userInformation' node and push data to create a new entry
-            push(ref(db, 'userInformation'), {
+            db.ref('userInformation').push({
                 username: username,
                 userEmail: userEmail,
                 userWhatsappNumber: userWhatsappNumber,
@@ -67,7 +64,7 @@
 <body class="theme-dark">
     <!-- Your HTML content goes here -->
     <div class="page-content header-clear-medium">
-        <h1> My ReaL Hahaha Information Form</h1>
+        <h1> My Real Information Form</h1>
         <form id="userForm" onsubmit="submitForm(event)">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>

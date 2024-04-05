@@ -23,8 +23,10 @@
 
   <div id="message"></div>
 
+  <!-- Import Firebase scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
+
   <script>
     // Initialize Firebase
     const firebaseConfig = {
@@ -37,7 +39,7 @@
         };
     firebase.initializeApp(firebaseConfig);
 
-    const db = firebase.firestore();
+    const db = firebase.database();
     
     // Handle form submission
     const bookingForm = document.getElementById('bookingForm');
@@ -63,7 +65,8 @@
 
     // Function to create a new booking
     function createBooking(name, startTime, endTime) {
-      return db.collection("bookings").add({
+      const newBookingRef = db.ref('bookings').push();
+      return newBookingRef.set({
         name: name,
         startTime: startTime,
         endTime: endTime

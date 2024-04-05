@@ -18,55 +18,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
     <!-- Firebase Realtime Database configuration -->
-   <script defer type="module">
+    <script defer src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
+    <script defer type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-const firebaseConfig =
-   {
-    apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOVJY6BUHUBmzCT0fTwCFXjga21UCgliI",
     authDomain: "ramikatest-ff97c.firebaseapp.com",
     projectId: "ramikatest-ff97c",
      storageBucket: "ramikatest-ff97c.appspot.com",
     messagingSenderId: "619432243067",
     appId: "1:619432243067:web:3241b65faa996b731cd7de"
-    };
+        };
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        
-       function submitForm(event) {
-    event.preventDefault(); // Prevent default form submission
-    // Get form values
-    const username = document.getElementById('username').value;
-    const userEmail = document.getElementById('userEmail').value;
-    const userWhatsappNumber = document.getElementById('userWhatsappNumber').value;
-    const userPeopleCount = document.getElementById('userPeopleCount').value;
+        const db = getDatabase(); // Access the Firebase Realtime Database
 
-    // Push data to Realtime Database
-    db.ref('userInformation').push({
-        username: username,
-        userEmail: userEmail,
-        userWhatsappNumber: userWhatsappNumber,
-        userPeopleCount: userPeopleCount
-    }, function(error) {
-        if (error) {
-            console.error('Error storing data: ', error);
-            alert('An error occurred while storing data. Please try again.');
-        } else {
-            alert('Data stored successfully!');
-            // Clear form fields after submission
-            document.getElementById('userForm').reset();
+        function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+            // Get form values
+            const username = document.getElementById('username').value;
+            const userEmail = document.getElementById('userEmail').value;
+            const userWhatsappNumber = document.getElementById('userWhatsappNumber').value;
+            const userPeopleCount = document.getElementById('userPeopleCount').value;
+
+            // Get a reference to the 'userInformation' node and push data to create a new entry
+            push(ref(db, 'userInformation'), {
+                username: username,
+                userEmail: userEmail,
+                userWhatsappNumber: userWhatsappNumber,
+                userPeopleCount: userPeopleCount
+            }).then(() => {
+                alert('Data stored successfully!');
+                // Clear form fields after submission
+                document.getElementById('userForm').reset();
+            }).catch((error) => {
+                console.error('Error storing data: ', error);
+                alert('An error occurred while storing data. Please try again.');
+            });
         }
-    });
-}
-    </script>   
+    </script>
 
     <!-- Other scripts and stylesheets as needed -->
 </head>
 <body class="theme-dark">
     <!-- Your HTML content goes here -->
     <div class="page-content header-clear-medium">
-        <h1> My Information Form</h1>
+        <h1> My ReaL Hahaha Information Form</h1>
         <form id="userForm" onsubmit="submitForm(event)">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>

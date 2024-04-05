@@ -31,7 +31,7 @@
     messagingSenderId: "619432243067",
     appId: "1:619432243067:web:3241b65faa996b731cd7de"
     };
-        // Initialize Firebase
+         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
@@ -54,13 +54,14 @@
                 alert('Data stored successfully!');
                 // Clear form fields after submission
                 document.getElementById('userForm').reset();
+                // Notify the user
+                document.getElementById('notification').innerText = 'Data submitted successfully!';
             }).catch((error) => {
                 console.error('Error storing data: ', error);
                 alert('An error occurred while storing data. Please try again.');
             });
         }
-      </script>
-
+    </script>   
 
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon-192x192.png"></head>
     <body class="theme-dark">
